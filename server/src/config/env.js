@@ -15,6 +15,8 @@ const env = {
     .map((s) => s.trim())
     .filter(Boolean),
   cookieSecure: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : isProd,
+  // 'none' is needed when the frontend is on a different site than the API (requires COOKIE_SECURE=true)
+  cookieSameSite: (process.env.COOKIE_SAMESITE || 'lax').toLowerCase(),
   ai: {
     provider: (process.env.AI_PROVIDER || 'demo').toLowerCase(),
     model: process.env.AI_MODEL || '',

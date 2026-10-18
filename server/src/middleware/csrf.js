@@ -12,7 +12,7 @@ export function issueCsrf(req, res) {
     res.cookie(CSRF_COOKIE, token, {
       httpOnly: false,
       secure: env.cookieSecure,
-      sameSite: 'lax',
+      sameSite: env.cookieSameSite,
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
