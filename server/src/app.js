@@ -19,6 +19,11 @@ export function createApp() {
   app.disable('x-powered-by');
   app.set('trust proxy', 1);
   app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+  // Chrome Private Network Access: lets a public site (e.g. Vercel) call this API on localhost
+  app.use((req, res, next) => {
+    if (req.get('access-control-request-private-network')) res.set('Access-Control-Allow-Private-Network', 'true');
+    next();
+  });
   app.use(
     cors({
       origin: (origin, cb) => cb(null, !origin || env.clientOrigins.includes(origin)),
