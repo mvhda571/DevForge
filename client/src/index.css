@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 245 247 251;
+    --surface: 255 255 255;
+    --sunken: 238 241 247;
+    --line: 226 230 239;
+    --ink: 14 26 51;
+    --muted: 100 116 139;
+    --primary: 106 75 255;
+    --primary-soft: 238 234 255;
+    --primary-ink: 79 52 222;
+    --signal: 47 123 255;
+    --signal-soft: 230 240 255;
+    --success: 18 160 107;
+    --success-soft: 226 246 237;
+    --warning: 196 120 10;
+    --warning-soft: 253 243 224;
+    --danger: 214 51 75;
+    --danger-soft: 252 232 236;
+    color-scheme: light;
+  }
+
+  .dark {
+    --bg: 10 18 34;
+    --surface: 16 27 50;
+    --sunken: 12 21 40;
+    --line: 33 47 78;
+    --ink: 232 237 247;
+    --muted: 145 160 188;
+    --primary: 139 115 255;
+    --primary-soft: 36 32 82;
+    --primary-ink: 172 155 255;
+    --signal: 92 152 255;
+    --signal-soft: 20 40 78;
+    --success: 52 199 140;
+    --success-soft: 14 52 44;
+    --warning: 240 170 60;
+    --warning-soft: 58 42 16;
+    --danger: 245 100 120;
+    --danger-soft: 66 22 34;
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--primary));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgb(var(--primary) / 0.22);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-panel border border-line bg-surface;
+  }
+  .field {
+    @apply w-full rounded-control border border-line bg-surface px-3 py-2.5 text-[15px] text-ink placeholder:text-muted/70 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+  .page-title {
+    @apply font-display text-2xl font-semibold text-ink md:text-[28px];
+  }
+  .section-title {
+    @apply font-display text-lg font-semibold text-ink;
+  }
+  .prose-df p { @apply my-3 leading-7; }
+  .prose-df ul { @apply my-3 list-disc space-y-1.5 pl-5; }
+  .prose-df ol { @apply my-3 list-decimal space-y-1.5 pl-5; }
+  .prose-df code { @apply rounded bg-sunken px-1.5 py-0.5 text-[0.9em] text-primary-ink; }
+  .prose-df pre { @apply my-3 overflow-x-auto rounded-control bg-navy-900 p-4 text-[13px] leading-6 text-slate-100; }
+  .prose-df pre code { @apply bg-transparent p-0 text-slate-100; }
+  .prose-df strong { @apply font-semibold text-ink; }
+}
+
+.leaflet-container {
+  font-family: inherit;
+  z-index: 0;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}

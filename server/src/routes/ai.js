@@ -1,0 +1,23 @@
+import { Router } from 'express';
+import { z } from 'zod';
+import * as c from '../controllers/aiController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { aiLimiter } from '../middleware/rateLimits.js';
+import { idParam, objectId } from '../validation/common.js';
+import { advisorSchema, tutorSchema } from '../validation/learning.js';
+
+const lessonParam = z.object({ lessonId: objectId });
+const r = Router();
+r.get('/status', c.status);
+r.use(requireAuth);
+r.post('/tutor', aiLimiter, validate({ body: tutorSchema }), c.tutor);
+r.get('/tutor/:lessonId', validate({ params: lessonParam }), c.tutorHistory);
+r.delete('/tutor/:lessonId', validate({ params: lessonParam }), c.clearTutor);
+r.post('/advisor', aiLimiter, validate({ body: advisorSchema }), c.advisor);
+r.post('/explain-result/:id', aiLimiter, validate({ params: idParam }), c.explainResult);
+r.get('/conversations', c.conversations);
+r.delete('/conversations', c.deleteAllConversations);
+r.get('/conversations/:id', validate({ params: idParam }), c.conversation);
+r.delete('/conversations/:id', validate({ params: idParam }), c.deleteConversation);
+export default r;

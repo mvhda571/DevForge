@@ -1,0 +1,15 @@
+{
+  "name": "devforge",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DevForge — AI ta’lim va kasb tanlash platformasi",
+  "scripts": {
+    "setup": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "seed:demo": "npm --prefix server run seed -- --demo",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "test": "npm --prefix server test",
+    "build": "npm --prefix client run build"
+  }
+}

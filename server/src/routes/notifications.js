@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import * as c from '../controllers/notificationController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { idParam } from '../validation/common.js';
+import { reminderSchema, reminderUpdateSchema } from '../validation/social.js';
+
+const r = Router();
+r.use(requireAuth);
+r.get('/', c.list);
+r.get('/unread-count', c.unreadCount);
+r.post('/read-all', c.markAllRead);
+r.get('/preferences', c.preferences);
+r.patch('/preferences', c.updatePreferences);
+r.get('/reminders', c.listReminders);
+r.post('/reminders', validate({ body: reminderSchema }), c.createReminder);
+r.patch('/reminders/:id', validate({ params: idParam, body: reminderUpdateSchema }), c.updateReminder);
+r.delete('/reminders/:id', validate({ params: idParam }), c.deleteReminder);
+r.patch('/:id/read', validate({ params: idParam }), c.markRead);
+r.delete('/:id', validate({ params: idParam }), c.remove);
+export default r;

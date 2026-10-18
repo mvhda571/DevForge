@@ -1,0 +1,23 @@
+import { Router } from 'express';
+import { z } from 'zod';
+import * as c from '../controllers/groupController.js';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { idParam, objectId } from '../validation/common.js';
+import { groupSchema, joinGroupSchema } from '../validation/social.js';
+
+const teacher = requireRole('teacher', 'admin');
+const r = Router();
+r.use(requireAuth);
+r.get('/', requireRole('teacher', 'student'), c.list);
+r.post('/', teacher, validate({ body: groupSchema }), c.create);
+r.post('/join', requireRole('student'), validate({ body: joinGroupSchema }), c.join);
+r.get('/:id', validate({ params: idParam }), c.detail);
+r.patch('/:id', teacher, validate({ params: idParam, body: groupSchema.partial() }), c.update);
+r.delete('/:id', teacher, validate({ params: idParam }), c.archive);
+r.post('/:id/code', teacher, validate({ params: idParam }), c.regenerateCode);
+r.get('/:id/analytics', teacher, validate({ params: idParam }), c.analytics);
+r.post('/:id/leave', requireRole('student'), validate({ params: idParam }), c.leave);
+r.delete('/:id/members/:userId', teacher, validate({ params: z.object({ id: objectId, userId: objectId }) }), c.removeMember);
+r.get('/:id/students/:studentId', teacher, validate({ params: z.object({ id: objectId, studentId: objectId }) }), c.studentDetail);
+export default r;
